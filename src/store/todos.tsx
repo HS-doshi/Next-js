@@ -1,6 +1,6 @@
 'use client'
 
-import {createContext, ReactNode, useContext, useState} from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 export type Todo = {
     id: string;
@@ -8,34 +8,27 @@ export type Todo = {
     completed: boolean;
     createdAt: Date;
 }
-
-//thapa technical
-
 export type TodosContext = {
     todos: Todo[];
-    handleAddTodo: (task: string) => void; //call signature
+    handleAddTodo: (task: string) => void;
     toggleTodoAsCompleted: (id: string) => void;
     handleDeleteTodo: (id: string) => void;
 }
 
 export const todosContext = createContext<TodosContext | null>(null)
 
-export function TodosProvider({children}: { children: ReactNode }) {
-
-    // The state variable todos is expected to be an array of Todo objects.
+export function TodosProvider({ children }: { children: ReactNode }) {
     const [todos, setTodos] = useState<Todo[]>(() => {
-        try{
-        const newTodos = localStorage.getItem('todos') || "[]";
-        return JSON.parse(newTodos) as Todo[]
-        }catch (e) {
+        try {
+            const newTodos = localStorage.getItem('todos') || "[]";
+            return JSON.parse(newTodos) as Todo[]
+        } catch (e) {
             return []
         }
 
-    }) //an array of Todo objects
+    })
     function handleAddTodo(task: string) {
-        // it ensures that the newTodos variable is declared and initialized before returning it.
         setTodos((prev) => {
-            // we will create a new array
             const newTodos: Todo[] = [
                 {
                     id: Math.random().toString(),
@@ -50,15 +43,11 @@ export function TodosProvider({children}: { children: ReactNode }) {
             return newTodos;
         })
     }
-
-    // toggleTodoAsCompleted
     const toggleTodoAsCompleted = (id: string) => {
-        // function toggleTodoAsCompleted(id:string) {
         setTodos((prev) => {
-            // console.log("completed "+ prev.map((val) => val ))
             const newTodos = prev.map((task) => {
                 if (task.id === id) {
-                    return {...task, completed: !task.completed}
+                    return { ...task, completed: !task.completed }
                 }
                 return task;
             })
@@ -67,7 +56,6 @@ export function TodosProvider({children}: { children: ReactNode }) {
         })
     }
 
-    // handleDeleteTodo
     function handleDeleteTodo(id: string) {
         setTodos((prev) => {
             const newTodos = prev.filter((task) => task.id !== id)
@@ -78,8 +66,7 @@ export function TodosProvider({children}: { children: ReactNode }) {
     }
 
     return (
-        // @ts-ignore
-        <todosContext.Provider value={{todos, handleAddTodo, toggleTodoAsCompleted, handleDeleteTodo}}>
+        <todosContext.Provider value={{ todos, handleAddTodo, toggleTodoAsCompleted, handleDeleteTodo }}>
             {children}
         </todosContext.Provider>
     );

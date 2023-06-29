@@ -1,12 +1,12 @@
 "use client"
-import {useTodos} from "@/store/todos";
+import { useTodos } from "@/store/todos";
 import { useSearchParams } from "next/navigation";
 
-export  const Todos = () => {
- const {todos, toggleTodoAsCompleted, handleDeleteTodo} = useTodos();
+export const Todos = () => {
+    const { todos, toggleTodoAsCompleted, handleDeleteTodo } = useTodos();
 
- const searchParams = useSearchParams();
- const todosFilter = searchParams.get('todos')
+    const searchParams = useSearchParams();
+    const todosFilter = searchParams.get('todos')
     console.log("params " + todosFilter)
 
     let filteredTodos = todos;
@@ -16,19 +16,15 @@ export  const Todos = () => {
     } else if (todosFilter === "completed") {
         filteredTodos = todos.filter((todo) => todo.completed);
     }
-
-    // thapa technical SUBSCRIBE
-
     return (
         <ul className="main-task">
             {
                 filteredTodos.map((todo) => {
                     return <li key={todo.id}>
-
-                        {/*Assigns a unique ID to the checkbox. The ID is created by concatenating the string "todo-" with the id property of the todo object.*/}
                         <input type="checkbox" id={`todo-${todo.id}`} checked={todo.completed} onChange={() => {
                             console.log(todo.completed)
-                            toggleTodoAsCompleted(todo.id)}
+                            toggleTodoAsCompleted(todo.id)
+                        }
                         } />
 
                         <label htmlFor={`todo-${todo.id}`}> {todo.task}</label>

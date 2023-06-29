@@ -1,12 +1,11 @@
 'use client'
 import Link from "next/link";
-import {useSearchParams} from "next/navigation";
-// thapa technical SUBSCRIBE
+import { useSearchParams } from "next/navigation";
 const Navbar = () => {
 
     const searchParams = useSearchParams();
     const todosFilter = searchParams.get("todos")
-    console.log('navbar ' +  todosFilter)
+    console.log('navbar ' + todosFilter)
 
     return (
         <nav >
